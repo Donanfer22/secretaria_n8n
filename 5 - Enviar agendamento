@@ -1,0 +1,143 @@
+{
+  "name": "5. Enviar agendamento",
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "mensagem"
+            },
+            {
+              "name": "id_conta"
+            },
+            {
+              "name": "id_conversa"
+            },
+            {
+              "name": "url_chatwoot"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -208,
+        240
+      ],
+      "id": "a0529157-13ee-4ae6-8e93-b2edcd6dc79b",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $json.url_chatwoot }}/api/v1/accounts/{{ $json.id_conta }}/conversations/{{ $json.id_conversa }}/messages",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "chatwootApi",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "content",
+              "value": "={{ $json.mensagem }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        32,
+        240
+      ],
+      "id": "d83be52d-fcee-41aa-9721-90037c646860",
+      "name": "Enviar mensagem",
+      "credentials": {
+        "chatwootApi": {
+          "id": "wdkGJ13Qw4EQSnKK",
+          "name": "ChatWoot Borges Midias"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "![Chatwoot](https://app.chatwoot.com/brand-assets/logo_dark.svg)",
+        "height": 100,
+        "width": 280,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        320,
+        64
+      ],
+      "id": "e53fdd95-4e3a-40ca-9805-80b9bb249736",
+      "name": "Sticky Note23"
+    },
+    {
+      "parameters": {
+        "content": "## 5. Enviar agendamento",
+        "height": 80,
+        "width": 540,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -256,
+        64
+      ],
+      "id": "9730555f-e536-455e-a2db-47b5fc308b85",
+      "name": "Sticky Note30"
+    },
+    {
+      "parameters": {
+        "content": "## ",
+        "height": 520,
+        "width": 1120
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -416,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "b861dd37-c48c-4abf-ad46-f44d0440bad0",
+      "name": "Sticky Note"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Enviar mensagem",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "9c0e0e19-f75e-4bdf-8e51-664279363860",
+  "meta": {
+    "instanceId": "745c5ec7b4f7bedf5b997f34a58cb5014a535d9fcad5b70fac431108e8272c76"
+  },
+  "id": "0WPiC9lN8XtHNuBD",
+  "tags": [
+    {
+      "createdAt": "2025-08-01T20:56:44.595Z",
+      "updatedAt": "2025-08-01T20:56:44.595Z",
+      "id": "4EzUPlNidst2XkWY",
+      "name": "SECRETARIA FAZER.AI"
+    }
+  ]
+}
