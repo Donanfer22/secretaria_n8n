@@ -1,0 +1,844 @@
+{
+  "name": "6. Assistente interno",
+  "nodes": [
+    {
+      "parameters": {
+        "chatId": "={{ $('Info').item.json.telegram_chat_id }}",
+        "text": "={{ $json.output }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2192,
+        720
+      ],
+      "id": "07ffadd1-6831-4285-92fa-b11cd451025c",
+      "name": "Responder Telegram",
+      "webhookId": "21855174-4f7f-49f5-b8f4-a284d6ee4ddf",
+      "credentials": {
+        "telegramApi": {
+          "id": "HFof8JxhcK9e96TR",
+          "name": "Telegram Fernando"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        144,
+        720
+      ],
+      "id": "4b6a2c23-a9c2-4ed5-806c-3d7363bec59f",
+      "name": "Receber Mensagem Telegram",
+      "webhookId": "f2b29356-d5d3-4f5d-9ef1-273001c0a820",
+      "credentials": {
+        "telegramApi": {
+          "id": "HFof8JxhcK9e96TR",
+          "name": "Telegram Fernando"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.mensagem }}",
+        "options": {
+          "systemMessage": "=Agora são {{ $now.format('FFFF') }}.\n\n## PAPEL\n\nVocê é um assistente interno de reagendamento no escritório, acionado diretamente por um profissional via mensagem para gerenciar situações de remarcação de consultas, incluir lembretes na lista de compras ou agendar tarefas.\n\n## OBJETIVO GERAL\n\n1. Reagendar consultas a pedido do profissional.  \n2. Adicionar lembretes na lista de compras quando solicitado.  \n3. Agendar tarefas a pedido do profissional\n\n\n## RESUMO DE RESPONSABILIDADES\n\n1. Reagendamento de leads  \n   - Acesse o Google Calendar por meio das ferramentas de evento para identificar as consultas afetadas.\n   - Extraia o número de telefone e o ID da conversa na descrição do evento.\n   - Use a ferramenta \"Enviar_reagendamento\" para enviar mensagens de reagendamento aos pacientes.\n   - Envie a pergunta de preferência de nova data e horário.\n2. Lista de compras do escritório  \n   - Se o profissional solicitar a inclusão de um item na lista de compras, utilize a ferramenta \"Criar_tarefa\" para adicionar o lembrete.\n3. Agendamento de tarefas do escritório\n   - Se o profissional solicitar o agendamento de uma tarefa na agenda do Google Calendar, utilize a ferramenta \"Criar_tarefa\" para adicionar o lembrete.\n4. Ler e resumir lista de emails\n   - Se o profissional solicitar informação sobre os emails recebidos, use a ferramenta \"Ler_emails\" e resuma as informações\n\n## ORIENTAÇÕES DE LINGUAGEM E PROCEDIMENTO\n\n- Use uma abordagem empática, profissional e acolhedora.\n- Nunca envie mensagens para pacientes sem autorização explícita do profissional.\n- Quando listar eventos ou tarefas, seja objetivo e organizado.\n- Mantenha clareza e concisão em todas as interações.\n\n## PROFISSIONAIS E ESPECIALIDADES\n\nSegue o nome dos profissionais, suas especialidades, e o ID da agenda que deve ser usado nas ferramentas Google Calendar\n\n**MUITO IMPORTANTE!! O ID DA AGENDA INCLUI O \"@group.calendar.google.com\". NÃO OMITA AO UTILIZAR AS FERRAMENTAS**\n\n- Dr. João Paulo Ferreira - Médico - Clinico Geral (c_46b1d614bf4f151ca950431202bf90ca003301793b48cffc489dc411be79c4bf@group.calendar.google.com)\n- Dr. Roberto Almeida - Médico - Cardiologia (c_6c3005bf4afd591f13f242f6509208ddbe1feadad3f6521884ab79c59069bfd0@group.calendar.google.com)\n- Dra. Ana Silva - Dentista - Clínica Geral (c_ebce2058c0b75e881585b90539f6ded839de178d4bb64e1aa9e4f6468d6954a6@group.calendar.google.com)\n- Dra. Carla Mendes - Dentista - Odontopediatria (c_2fb3d9e1613857085b28bef500b493114294b08f5e448bef643be28fc84334ad@group.calendar.google.com)\n\n## IMPORTANTE\n\n- Use a ferramenta \"Refletir\" antes e depois de realizar operações complexas, para ter certeza de que deu tudo certo.\n- SEMPRE QUE ENVIAR UMA MENSAGEM PARA O PACIENTE, **USE A FERRAMENTA \"Salvar_memoria\"**. ISSO É MUITO IMPORTANTE, NÃO FAÇA ERRADO POR FAVOR.\n\n## INSTRUÇÕES FINAIS\n\n- Atenda exclusivamente às solicitações de reagendamento e inclusão de lembretes.\n- A remarcação de consultas ocorre somente quando o profissional pede, utilizando as ferramentas de evento para identificar os pacientes e a ferramenta \"Enviar_reagendamento\" para enviar a mensagem.\n- Para a lista de compras e lembretes, sempre use \"Criar_tarefa\".\n- Para a sua resposta que será enviada para o profissional que fez a soliticação, **NÃO UTILIZE FORMATAÇÃO MARKDOWN**.\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        1824,
+        720
+      ],
+      "id": "c3a1092a-1e8b-4430-82d3-3c04c778d383",
+      "name": "Assistente do escritório interno"
+    },
+    {
+      "parameters": {
+        "content": "## Assistente interno\n",
+        "height": 560,
+        "width": 2460,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        560
+      ],
+      "id": "8dcb10a4-bc8a-4509-b9d2-1a568284083e",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "content": "![Chatwoot](https://app.chatwoot.com/brand-assets/logo_dark.svg)",
+        "height": 100,
+        "width": 280,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        608,
+        400
+      ],
+      "id": "5eb96355-2938-485c-ae5d-26ce0545a0ca",
+      "name": "Sticky Note23"
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Salva a informação de agendamento enviada, para que a secretária saiba que foi enviada.",
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "n8n_historico_mensagens",
+          "mode": "list"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "session_id": "={{ $fromAI('telefone', 'Telefone do paciente, formatado com apenas números, incluindo código do país. Ex.: \"551112345678\"', 'string') }}",
+            "message": "={ \"type\": \"ai\", \"content\": \"{{ $fromAI('message', 'A mesma mensagem enviada para o paciente.', 'string') }}\" }"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "session_id",
+              "displayName": "session_id",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "message",
+              "displayName": "message",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "object",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "created_at",
+              "displayName": "created_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgresTool",
+      "typeVersion": 2.6,
+      "position": [
+        1584,
+        960
+      ],
+      "id": "544d687f-95ce-474a-9e52-44519ed975b3",
+      "name": "Salvar memoria",
+      "credentials": {
+        "postgres": {
+          "id": "9nYTTWliO3kTwm5n",
+          "name": "Postgres Supabase WhatsApp Borges Auto IA"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "limit": 5,
+        "filters": {}
+      },
+      "type": "n8n-nodes-base.gmailTool",
+      "typeVersion": 2.1,
+      "position": [
+        2128,
+        960
+      ],
+      "id": "c7dab0ba-625a-4a98-bbd9-e5aa2a582f17",
+      "name": "Ler emails",
+      "webhookId": "dde17a90-60a1-42ad-9a09-06cf2fbb3105",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "pHEcX0W95X7o0gUH",
+          "name": "Gmail Fernando"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "task": "YXdwUHJaRVoxWDdudFNGNg",
+        "title": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Title', ``, 'string') }}",
+        "additionalFields": {
+          "dueDate": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Due_Date', ``, 'string') }}",
+          "notes": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Notes', ``, 'string') }}",
+          "status": "needsAction"
+        }
+      },
+      "type": "n8n-nodes-base.googleTasksTool",
+      "typeVersion": 1,
+      "position": [
+        1984,
+        960
+      ],
+      "id": "f7042b9a-dd8f-4601-b3ab-8cc2ab72645c",
+      "name": "Criar tarefa",
+      "credentials": {
+        "googleTasksOAuth2Api": {
+          "id": "DedtpTJiXvrfwTWV",
+          "name": "Google Tasks Borges"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "439cbe58-9652-4831-bf25-f077216f1d55",
+              "name": "url_chatwoot",
+              "value": "https://chatwoot.autoia.store/",
+              "type": "string"
+            },
+            {
+              "id": "0a3fa735-aced-46e9-b9de-1734f9f2b537",
+              "name": "id_conta",
+              "value": "={{ $json.account_id }}",
+              "type": "string"
+            },
+            {
+              "id": "2c4f57f2-8175-43e9-8d59-2796b2ebf488",
+              "name": "telegram_chat_id",
+              "value": "={{ $('Receber Mensagem Telegram').item.json.message.chat.id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        592,
+        720
+      ],
+      "id": "7431ba85-d1ff-4af1-a76c-4b3382358f4b",
+      "name": "Info"
+    },
+    {
+      "parameters": {
+        "resource": "Profile",
+        "operation": "Fetch Profile",
+        "requestOptions": {}
+      },
+      "type": "@devlikeapro/n8n-nodes-chatwoot.chatWoot",
+      "typeVersion": 1,
+      "position": [
+        368,
+        720
+      ],
+      "id": "49f9b5cf-25fc-4dca-ba30-3efddd728f77",
+      "name": "Buscar informações da conta",
+      "credentials": {
+        "chatwootApi": {
+          "id": "wdkGJ13Qw4EQSnKK",
+          "name": "ChatWoot Borges Midias"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "assistente_interno",
+        "tableName": "n8n_historico_mensagens",
+        "contextWindowLength": 10
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.3,
+      "position": [
+        1440,
+        960
+      ],
+      "id": "9eeb015a-b709-435e-b25b-4e7fe10b90ef",
+      "name": "Postgres Chat Memory",
+      "credentials": {
+        "postgres": {
+          "id": "9nYTTWliO3kTwm5n",
+          "name": "Postgres Supabase WhatsApp Borges Auto IA"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-flash-lite",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1312,
+        960
+      ],
+      "id": "0ff8b7ec-669c-495e-a1db-580167f8b3c3",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "IkKVsoTK3cDUptom",
+          "name": "Gemini API Fernando"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sseEndpoint": "https://www.n8n.autoia.store/mcp/db6bc79d-ba32-41c4-b492-f0f5bbcb8fd3/sse"
+      },
+      "type": "@n8n/n8n-nodes-langchain.mcpClientTool",
+      "typeVersion": 1,
+      "position": [
+        1712,
+        960
+      ],
+      "id": "135be6c7-bd7c-4c52-85d7-b81299ba7bc3",
+      "name": "MCP Google Calendar"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolThink",
+      "typeVersion": 1,
+      "position": [
+        2272,
+        960
+      ],
+      "id": "9f6939c4-a855-44b0-9c10-e8811a49cb99",
+      "name": "Refletir"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Receber Mensagem Telegram').item.json.message.voice }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "object",
+                      "operation": "exists",
+                      "singleValue": true
+                    },
+                    "id": "48feeb05-d1a0-45a7-9e6b-04faef4b5175"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Áudio"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "8cf1a12e-bd0a-4ac6-a33c-6748438c9c8a",
+                    "leftValue": "={{ $('Receber Mensagem Telegram').item.json.message.text }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "exists",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Texto"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        832,
+        720
+      ],
+      "id": "b46401df-598b-4339-827c-0ac3db503f09",
+      "name": "Tipo de mensagem"
+    },
+    {
+      "parameters": {
+        "resource": "audio",
+        "operation": "transcribe",
+        "options": {
+          "language": "pt"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        1328,
+        624
+      ],
+      "id": "122b9c02-be6f-494f-969b-7e47060069a3",
+      "name": "Transcrever áudio",
+      "credentials": {
+        "openAiApi": {
+          "id": "zKrBjNtwsopoVMKb",
+          "name": "OpenAi Fernando"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "45efc554-3f74-4922-a2cf-f64d2ea084c0",
+              "name": "mensagem",
+              "value": "={{ $('Receber Mensagem Telegram').item.json.message.text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1104,
+        832
+      ],
+      "id": "0b4c9e6a-3ed3-4afc-ae91-208e7a65e27e",
+      "name": "Set mensagem texto"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "0e95db55-1b2e-4762-a547-9481029291e9",
+              "name": "mensagem",
+              "value": "={{ $json.text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1552,
+        624
+      ],
+      "id": "80018ff7-f188-44e8-9088-0f615d656937",
+      "name": "Set mensagem áudio"
+    },
+    {
+      "parameters": {
+        "content": "## 6. Assistente interno",
+        "height": 80,
+        "width": 540,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        432
+      ],
+      "id": "7cd83120-5cc7-40e7-afde-ab7f23acb00e",
+      "name": "Sticky Note30"
+    },
+    {
+      "parameters": {
+        "description": "Use essa ferramenta para enviar as informações de reagendamento no WhatsApp.\n\nO ID da conversa deve ser extraído das informações do evento.",
+        "workflowId": {
+          "__rl": true,
+          "value": "<selecione seu workflow>",
+          "mode": "list"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "mensagem": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('mensagem', ``, 'string') }}",
+            "id_conversa": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('id_conversa', ``, 'string') }}",
+            "id_conta": "={{ $('Info').item.json.id_conta }}",
+            "url_chatwoot": "={{ $('Info').item.json.url_chatwoot }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "mensagem",
+              "displayName": "mensagem",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "id_conta",
+              "displayName": "id_conta",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "id_conversa",
+              "displayName": "id_conversa",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "url_chatwoot",
+              "displayName": "url_chatwoot",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        1840,
+        960
+      ],
+      "id": "745acf46-0007-445f-adef-ca1fa4a4f325",
+      "name": "Enviar agendamento"
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "fileId": "={{ $('Receber Mensagem Telegram').item.json.message.voice.file_id }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1104,
+        624
+      ],
+      "id": "1bcd88cb-b32d-4a2a-a98d-7c12396bb68e",
+      "name": "Download áudio",
+      "webhookId": "9b28d599-c57f-4ecf-94a1-6334f7dabf6d",
+      "credentials": {
+        "telegramApi": {
+          "id": "HFof8JxhcK9e96TR",
+          "name": "Telegram Fernando"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "Receber Mensagem Telegram": [
+      {
+        "json": {
+          "update_id": 813185696,
+          "message": {
+            "message_id": 116,
+            "from": {
+              "id": 6597697011,
+              "is_bot": false,
+              "first_name": "Fernando",
+              "last_name": "Silvka",
+              "username": "fernandodrop",
+              "language_code": "pt-br"
+            },
+            "chat": {
+              "id": 6597697011,
+              "first_name": "Fernando",
+              "last_name": "Silvka",
+              "username": "fernandodrop",
+              "type": "private"
+            },
+            "date": 1754107282,
+            "voice": {
+              "duration": 13,
+              "mime_type": "audio/ogg",
+              "file_id": "AwACAgEAAxkBAAN0aI2NkoJQLb0sLxinUOPNddnBRcYAAgQFAAIbh3BEMChBxC4lh702BA",
+              "file_unique_id": "AgADBAUAAhuHcEQ",
+              "file_size": 276912
+            }
+          }
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Receber Mensagem Telegram": {
+      "main": [
+        [
+          {
+            "node": "Buscar informações da conta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Assistente do escritório interno": {
+      "main": [
+        [
+          {
+            "node": "Responder Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Salvar memoria": {
+      "ai_tool": [
+        [
+          {
+            "node": "Assistente do escritório interno",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ler emails": {
+      "ai_tool": [
+        [
+          {
+            "node": "Assistente do escritório interno",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Criar tarefa": {
+      "ai_tool": [
+        [
+          {
+            "node": "Assistente do escritório interno",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Info": {
+      "main": [
+        [
+          {
+            "node": "Tipo de mensagem",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Buscar informações da conta": {
+      "main": [
+        [
+          {
+            "node": "Info",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "Assistente do escritório interno",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Assistente do escritório interno",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MCP Google Calendar": {
+      "ai_tool": [
+        [
+          {
+            "node": "Assistente do escritório interno",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Refletir": {
+      "ai_tool": [
+        [
+          {
+            "node": "Assistente do escritório interno",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tipo de mensagem": {
+      "main": [
+        [
+          {
+            "node": "Download áudio",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Set mensagem texto",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Transcrever áudio": {
+      "main": [
+        [
+          {
+            "node": "Set mensagem áudio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set mensagem texto": {
+      "main": [
+        [
+          {
+            "node": "Assistente do escritório interno",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set mensagem áudio": {
+      "main": [
+        [
+          {
+            "node": "Assistente do escritório interno",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Enviar agendamento": {
+      "ai_tool": [
+        [
+          {
+            "node": "Assistente do escritório interno",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download áudio": {
+      "main": [
+        [
+          {
+            "node": "Transcrever áudio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "82db0fdf-b4e2-4ac2-ad09-7ae115444fcc",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "745c5ec7b4f7bedf5b997f34a58cb5014a535d9fcad5b70fac431108e8272c76"
+  },
+  "id": "UQcTeflnHiGzWtH2",
+  "tags": [
+    {
+      "createdAt": "2025-08-01T20:56:44.595Z",
+      "updatedAt": "2025-08-01T20:56:44.595Z",
+      "id": "4EzUPlNidst2XkWY",
+      "name": "SECRETARIA FAZER.AI"
+    }
+  ]
+}
