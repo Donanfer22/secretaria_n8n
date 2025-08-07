@@ -1,0 +1,216 @@
+{
+  "name": "3. Baixar e enviar arquivo do Google Drive",
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "file_id"
+            },
+            {
+              "name": "id_conta"
+            },
+            {
+              "name": "id_conversa"
+            },
+            {
+              "name": "url_chatwoot"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -128,
+        112
+      ],
+      "id": "87106a86-22dc-466a-b8f6-bf75b81035d1",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.file_id }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        112,
+        112
+      ],
+      "id": "b827da37-af83-42b4-a752-8d3b522572fa",
+      "name": "Baixar arquivo",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "nwDtaztBjOD3YZa0",
+          "name": "Google Drive Borges Mídias"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "71dda3d7-4505-4d03-b70f-63f5c005c0c3",
+              "name": "status",
+              "value": "={{ $json.status }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        544,
+        112
+      ],
+      "id": "ac98ffcc-8863-4477-88b4-79d797715efe",
+      "name": "Output"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('When Executed by Another Workflow').item.json.url_chatwoot }}/api/v1/accounts/{{ $('When Executed by Another Workflow').item.json.id_conta }}/conversations/{{ $('When Executed by Another Workflow').item.json.id_conversa }}/messages",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "chatwootApi",
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "parameterType": "formBinaryData",
+              "name": "attachments[]",
+              "inputDataFieldName": "data"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        320,
+        112
+      ],
+      "id": "1fb99965-f18d-46c7-90db-cd3a2c404e4d",
+      "name": "Enviar arquivo",
+      "credentials": {
+        "chatwootApi": {
+          "id": "wdkGJ13Qw4EQSnKK",
+          "name": "ChatWoot Borges Midias"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "![Chatwoot](https://app.chatwoot.com/brand-assets/logo_dark.svg)",
+        "height": 100,
+        "width": 280,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        448,
+        -64
+      ],
+      "id": "50797e5d-c78f-454c-9ea7-a710998d4044",
+      "name": "Sticky Note23"
+    },
+    {
+      "parameters": {
+        "content": "## 3. Baixar e enviar arquivo do Google Drive",
+        "height": 80,
+        "width": 540,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -160,
+        -80
+      ],
+      "id": "3110bd12-0d8f-47eb-9354-fec5dc0ef4f4",
+      "name": "Sticky Note30"
+    },
+    {
+      "parameters": {
+        "content": "## ",
+        "height": 420,
+        "width": 960
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -176,
+        -96
+      ],
+      "typeVersion": 1,
+      "id": "58d430c9-00d4-488d-b868-8bbb3cbb662f",
+      "name": "Sticky Note"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Baixar arquivo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Baixar arquivo": {
+      "main": [
+        [
+          {
+            "node": "Enviar arquivo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Enviar arquivo": {
+      "main": [
+        [
+          {
+            "node": "Output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "aba2ed11-a370-4da2-a0ad-df0d084056eb",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "745c5ec7b4f7bedf5b997f34a58cb5014a535d9fcad5b70fac431108e8272c76"
+  },
+  "id": "ugUjoD2nPS5MCNyw",
+  "tags": [
+    {
+      "createdAt": "2025-08-01T20:56:44.595Z",
+      "updatedAt": "2025-08-01T20:56:44.595Z",
+      "id": "4EzUPlNidst2XkWY",
+      "name": "SECRETARIA FAZER.AI"
+    }
+  ]
+}
